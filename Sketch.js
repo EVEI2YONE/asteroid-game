@@ -10,7 +10,8 @@ let ship
 let level = 1
 let base = 1.05
 let total = 10
-let goal = Math.pow(base, level) * 1
+let mult = Math.pow(base, level)
+let goal = mult * 2
 let fov = 30
 let fovRange = 250
 
@@ -74,14 +75,16 @@ function restart() {
     start()
 }
 
-function drawTargets() { 
+function drawTargets() {
     noFill()
     targets = ship.getTargets(asteroids, fovRange, fov)
     for(let i = 0; i < targets.length; i++) {
         let target = targets[i]
+        stroke(0, 255, 255)
+        ellipse(target.x, target.y, 2)
     }
-    angleMode(DEGREES)
     fill(255)
+    stroke(0)
 }
 
 function checkCollisions() {
@@ -106,7 +109,7 @@ function checkCollisions() {
 
 function keyPressed() {
     if(keyCode == 32) {
-        lasers.push(ship.shoot())
+        lasers.push(ship.shoot(targets))
     }
 }
 
@@ -159,7 +162,7 @@ function generateAsteroids(num) {
             xStart = w*Math.random()
             yStart = h
         }
-        let size = Math.random()*20 + 16 * level
+        let size = Math.random()*20 + 16 * mult
         let speed = Math.random()*2 + 2
         let rotation = Math.random()*360
         asteroids.push(new Asteroid(xStart, yStart, size, speed, rotation))

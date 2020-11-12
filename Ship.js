@@ -19,7 +19,7 @@ class Ship extends Projectile {
         triangle(x1, y1, x2, y2, x3, y3)
     }
 
-    shoot() {
+    shoot(targets) {
         let laserSize = 5
         //end of the ship
         let x1 = this.x + laserSize*cos(rot)
@@ -54,21 +54,17 @@ class Ship extends Projectile {
             return false
     }
 
-    getTargets(asteroids, distance, vision) {
+    getTargets(asteroids, fovRange, fov) {
         let list = []
         for(let i = 0; i < asteroids.length; i++) {
             let asteroid = asteroids[i]
-            let x = 20
-            let y = 25
             let d = mag(this.x-asteroid.x, this.y-asteroid.y)
-            if(d < distance) {
+            if(d < fovRange) {
                 angleMode(DEGREES)
                 let relative = atan2(asteroid.y-this.y, asteroid.x-this.x)
-                //360-range+ship.angle, range+ship.angle
-                let v = 30
-                line(ship.x, ship.y, ship.x+cos(relative)*v, ship.y+sin(relative)*v)
-                if(this.inRange(relative, vision)) {
-                    ellipse(asteroid.x, asteroid.y, 2)
+                if(relative < 0)
+                    relative += 360
+                if(this.inRange(relative, fov)) {
                     list.push(asteroid)
                 }
             }
@@ -76,18 +72,18 @@ class Ship extends Projectile {
         return list
     }
 
-    inRange(relative, vision) {
-        let start = this.angle-vision
-        let end = start+vision*2
-        if(start <= relative && relative <= end)
+    inRange(relative, fov) {
+        let start = this.angle-fov
+        let end = start+fov*2
+        if(start <= relative && relative <= end) {
             return true
+        }
         return false
     }
 
     drawFOV(fovRange, fov) {
         let start = this.angle-fov
         let end = start+fov*2
-        let distance = 150
         noFill()
         arc(this.x, this.y, fovRange*2, fovRange*2, start, end, PIE)
         fill(255)

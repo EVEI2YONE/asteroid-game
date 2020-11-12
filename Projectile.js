@@ -22,6 +22,12 @@ class Projectile {
 
     rotate(alpha) {
         this.angle += alpha
+        let a = this.angle
+        if(a <= 0)
+            this.angle = 360 + this.angle
+        else if(a >= 360)
+            this.angle %= 360
+        
     }
 
     move(direction) {
