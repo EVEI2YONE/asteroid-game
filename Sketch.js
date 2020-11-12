@@ -1,5 +1,6 @@
 let asteroids = []
 let lasers = []
+let targets = []
 let w = 750
 let h = 600
 let d = 10
@@ -8,8 +9,10 @@ let rot = 90
 let ship
 let level = 1
 let base = 1.05
-let total = 15
-let goal = Math.pow(base, level) * 15
+let total = 10
+let goal = Math.pow(base, level) * 1
+let fov = 30
+let fovRange = 250
 
 function setup() {
     createCanvas(w, h)
@@ -36,6 +39,7 @@ function draw() {
     drawShip()
     drawAsteroids()
     drawLasers()
+    drawTargets()
     if(checkCollisions()) {
         alert('game over')
         restart()
@@ -70,6 +74,16 @@ function restart() {
     start()
 }
 
+function drawTargets() { 
+    noFill()
+    targets = ship.getTargets(asteroids, fovRange, fov)
+    for(let i = 0; i < targets.length; i++) {
+        let target = targets[i]
+    }
+    angleMode(DEGREES)
+    fill(255)
+}
+
 function checkCollisions() {
     for(let i = asteroids.length-1; i >= 0; i--) {
         if(ship.collides(asteroids[i])) {
@@ -101,6 +115,7 @@ function drawShip() {
     ship.move(move)
     ship.wrap(w, h)
     ship.draw()
+    ship.drawFOV(fovRange, fov)
 }
 
 function drawLasers() {

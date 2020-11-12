@@ -11,8 +11,8 @@ class Asteroid extends Projectile {
         let inc = lim/25
         for(let i = 0; i < lim; i += inc) {
             let offset = this.size/2 * (1 - random()*.3)
-            let x = cos(this.angle+i) * offset
-            let y = sin(this.angle+i) * offset
+            let x = cos(i) * offset
+            let y = sin(i) * offset
             this.xPoints.push(x)
             this.yPoints.push(y)
         }
