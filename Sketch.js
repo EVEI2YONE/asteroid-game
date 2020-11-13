@@ -10,12 +10,14 @@ let ship
 let score = 0
 let level = 1
 let base = 1.05
-let total = 10
+let total = 4
 let mult = Math.pow(base, level)
-let goal = mult * 2
+let goal = mult * total
 let fov = 30
 let fovRange = 250
 let paused = false
+let rate = 100
+let count = 0
 
 function setup() {
     createCanvas(w, h)
@@ -35,6 +37,9 @@ let alpha = 0
     p - 80
 */
 function draw() {
+    if(count == rate)
+        count = 0
+    count++
     if(asteroids.length == 0) {
         alert('level cleared')
         level++
@@ -67,12 +72,15 @@ function draw() {
     else {
         alpha = 0
     }
+    if(keyIsDown(32) && count % 10 == 0) { //space
+        lasers.push(ship.shoot(targets, fovRange, 'laser'))
+    }
 }
 
 function keyPressed() {
-    if(keyCode == 32) { //space
-        lasers.push(ship.shoot(targets, fovRange, 'laser'))
-    }
+    // if(keyCode == 32 && count == rate) { //space
+    //     lasers.push(ship.shoot(targets, fovRange, 'laser'))
+    // }
     if(keyCode == 80) { //'p'
         paused = !paused
     }
@@ -98,24 +106,51 @@ function restart() {
 }
 
 function checkCollisions() {
+    let filter = []
     for(let i = asteroids.length-1; i >= 0; i--) {
         if(ship.collides(asteroids[i])) {
             return true
         }
-        for(let j = lasers.length-1; j >= 0; j--) {
-            let asteroid = asteroids[i]
-            if(asteroid.collides(lasers[j])) {
-                asteroid.health -= lasers[j].damage
-                if(asteroid.health <= 0) {
-                    asteroid.split(asteroids, lasers[j])
-                    asteroid.clearShape()
-                    score += Math.round(asteroid.totalHealth)
-                    htmlScore.innerHTML = score
-                    asteroids.splice(i, 1)
-                }
-                lasers.splice(j, 1)
-                break;
+        let skip = false
+        let asteroid = asteroids[i]
+        let destroyed = laserHit(asteroid, i)
+        for(let j = 0; j < filter.length; j++) {
+            if(asteroid == filter[j])
+                skip = true
+        }
+        if(skip || destroyed) continue
+        asteroidHit(asteroid, filter)
+    }
+    return false
+}
+
+function asteroidHit(asteroid, filter) {
+    let nearbyAsteroids = asteroid.getTargets(asteroids, asteroid.size, 360)
+    for(let j = 0; j < nearbyAsteroids.length; j++) {
+        let other = nearbyAsteroids[j]
+        line(asteroid.x, asteroid.y, other.x, other.y)
+        if(mag(asteroid.x-other.x, asteroid.y-other.y) > asteroid.size+other.size) continue
+        //if(asteroid.size < other.size && asteroid.collides(other)) {
+            asteroid.split(asteroids, other, false)
+            filter.push(other)
+            break
+        //}
+    }
+}
+
+function laserHit(asteroid, index) {
+    for(let j = lasers.length-1; j >= 0; j--) {
+        if(asteroid.collides(lasers[j])) {
+            asteroid.health -= lasers[j].damage
+            if(asteroid.health <= 0) {
+                asteroid.split(asteroids, lasers[j], true)
+                asteroid.clearShape()
+                score += Math.round(asteroid.totalHealth)
+                htmlScore.innerHTML = score
+                asteroids.splice(index, 1)
             }
+            lasers.splice(j, 1)
+            return true;
         }
     }
     return false

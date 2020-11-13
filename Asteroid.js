@@ -50,21 +50,34 @@ class Asteroid extends Projectile {
         fill(255)
     }
 
-    split(asteroids, laser) {
+    split(asteroids, other, destroy) {
+        if(other == null) return
         if(this.size < 20) return
         let size = this.size
         let speed = this.speed
         let a = this.angle
         let x1 = cos(a) * speed * size
         let y1 = sin(a) * speed * size
-        let x2 = cos(laser.angle) * laser.speed * laser.size
-        let y2 = sin(laser.angle) * laser.speed * laser.size
-        let netX = (x2 + x1) / (size + laser.size)
-        let netY = (y2 + y1) / (size + laser.size)
-        let asteroid1 = this.genAsteroid(netX, netY, .4)
-        let asteroid2 = this.genAsteroid(netX*(2/3), netY*(2/3), .6)
-        asteroids.push(asteroid1)
-        asteroids.push(asteroid2)
+        let x2 = cos(other.angle) * other.speed * other.size
+        let y2 = sin(other.angle) * other.speed * other.size
+        let netX = (x2 + x1) / (size + other.size)
+        let netY = (y2 + y1) / (size + other.size)
+        if(destroy) {
+            let asteroid1 = this.genAsteroid(netX, netY, .4)
+            let asteroid2 = this.genAsteroid(netY*(2/3), netX*(2/3), .6)
+            asteroids.push(asteroid1)
+            asteroids.push(asteroid2)
+        }
+        else {
+            a = atan2(netY, netX)
+            a = this.normalizeAngle(a)
+            this.angle += abs(a-this.angle)
+            this.speed -= mag(netY, netX)
+            a = atan2(netX, netY)
+            a = this.normalizeAngle(a)
+            other.angle += abs(a/2-this.angle)
+            other.speed -= mag(netY, netX)
+        }
     }
 
     genAsteroid(netX, netY, multiplier) {
@@ -74,8 +87,8 @@ class Asteroid extends Projectile {
         let s = Math.sqrt(x*x+y*y)
         angleMode(DEGREES)
         let a = atan2(netY, netX)
-        x += this.x
-        y += this.y
+        x += this.x+this.size/2
+        y += this.y+this.size/2
         return new Asteroid(x, y, newSize, s, a)
     }
 

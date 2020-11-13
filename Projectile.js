@@ -73,6 +73,7 @@ class Projectile {
         let targets = []
         for(let i = 0; i < list.length; i++) {
             let item = list[i]
+            if(item == this) continue
             let d = mag(this.x-item.x, this.y-item.y)
             if(d < fovRange) {
                 angleMode(DEGREES)
@@ -94,5 +95,11 @@ class Projectile {
             return true
         }
         return false
+    }
+
+    normalizeAngle(a) {
+        if(a < 0)
+            return a+360
+        return a
     }
 }

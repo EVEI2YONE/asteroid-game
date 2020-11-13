@@ -30,8 +30,7 @@ class Laser extends Projectile {
         let dy = this.target.y-this.y
         //angle was from Q1 to Q2 from 0 to -180
         let a = atan2(dy, dx)
-        if(a < 0)
-            a += 360
+        a = this.normalizeAngle(a)
         //had to convert to 360 degrees and use modulus for angle change
         a -= this.angle
         a %= 360
@@ -41,12 +40,11 @@ class Laser extends Projectile {
     detonate(lasers, asteroids) {
         if(this.type == 'laser') return false
         let targets
-        let blastRadius = 50
+        let blastRadius = 60
         if(this.target != null)  {
-            if(mag(this.x-this.target.x, this.y-this.target.y) > this.target.size*2) {
+            if(mag(this.x-this.target.x, this.y-this.target.y) > this.target.size) {
                 return false;
             }
-            blastRadius = this.target.size*2
         }
         targets = this.getTargets(asteroids, blastRadius, 360)
         if(targets.length == 0) return false
@@ -54,8 +52,11 @@ class Laser extends Projectile {
             targets[i].health -= this.damage
         }
 
-        for(let i = 0; i < 5; i++) {
-            let temp = new Laser(this.x, this.y, this.size, this.speed*.7, this.angle*i, 'laser')
+        let lim = 3
+        for(let i = 0; i < lim; i++) {
+            let burstAngle = 90
+            let offset = burstAngle * (random() - 1/2)
+            let temp = new Laser(this.x, this.y, this.size, this.speed*.7, this.angle+offset, 'laser')
             if(this.target != null && this.target.health > 0)
                 temp.setTarget(this.target)
             else
