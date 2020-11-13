@@ -99,6 +99,7 @@ function checkCollisions() {
                     asteroid.clearShape()
                     score += Math.round(asteroid.totalHealth)
                     htmlScore.innerHTML = score
+                    console.log(score)
                     asteroids.splice(i, 1)
                 }
                 lasers.splice(j, 1)
