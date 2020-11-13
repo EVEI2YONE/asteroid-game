@@ -40,6 +40,7 @@ function draw() {
         alert('level cleared')
         level++
         htmlLevel.innerHTML = level
+        htmlScore.innerHTML = score
         restart()
     }
     //console.log(score)
