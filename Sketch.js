@@ -15,6 +15,11 @@ let goal = mult * 2
 let fov = 30
 let fovRange = 250
 
+/*
+
+
+*/
+
 function setup() {
     createCanvas(w, h)
     background(80)
@@ -96,7 +101,6 @@ function checkCollisions() {
         }
         for(let j = lasers.length-1; j >= 0; j--) {
             let asteroid = asteroids[i]
-            console.log(asteroid.health)
             if(asteroid.collides(lasers[j])) {
                 asteroid.health--
                 if(asteroid.health <= 0) {
@@ -123,7 +127,7 @@ function drawShip() {
     ship.move(move)
     ship.wrap(w, h)
     ship.draw()
-    ship.drawFOV(fovRange, fov)
+    ship.drawFOV(ship.size*2, fov)
 }
 
 function drawLasers() {

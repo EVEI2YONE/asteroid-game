@@ -38,23 +38,28 @@ class Projectile {
     }
 
     wrap(w, h) {
+        let padding = 15
+        let xLeft = 0-padding
+        let xRight = w+padding
+        let yTop = 0-padding
+        let yBottom = h+padding
         let x = this.x
         let y = this.y
         let changed = false
-        if(x < 0) {
-            this.x = w
+        if(x < xLeft) {
+            this.x = xRight
             changed = true
         }
-        else if(x > w) {
-            this.x = 0
+        else if(x > xRight) {
+            this.x = xLeft
             changed = true
         }
-        if(y < 0) {
-            this.y = h
+        if(y < yTop) {
+            this.y = yBottom
             changed = true
         }
-        else if(y > h) {
-            this.y = 0
+        else if(y > yBottom) {
+            this.y = yTop
             changed = true
         }
         return changed

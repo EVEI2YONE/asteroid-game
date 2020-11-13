@@ -97,7 +97,7 @@ class Ship extends Projectile {
         let start = this.angle-fov
         let end = start+fov*2
         noFill()
-        arc(this.x, this.y, fovRange*2, fovRange*2, start, end, PIE)
+        arc(this.x, this.y, fovRange*2, fovRange*2, start, end, OPEN)
         fill(255)
     }
 }

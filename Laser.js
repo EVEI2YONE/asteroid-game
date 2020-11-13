@@ -16,16 +16,21 @@ class Laser extends Projectile {
 
     setTarget(target) {
         this.target = target
-        console.log(target)
     }
 
     track() {
         if(this.target == null) return
-        if(this.target.health == 0) return
+        if(this.target.health <= 0) return
         angleMode(DEGREES)
         let dx = this.target.x-this.x
         let dy = this.target.y-this.y
+        //angle was from Q1 to Q2 from 0 to -180
         let a = atan2(dy, dx)
-        this.angle = a
+        if(a < 0)
+            a += 360
+        //had to convert to 360 degrees and use modulus for angle change
+        a -= this.angle
+        a %= 360
+        this.angle += a/abs(a)
     }
 }
