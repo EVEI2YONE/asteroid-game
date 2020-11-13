@@ -95,10 +95,16 @@ function checkCollisions() {
             return true
         }
         for(let j = lasers.length-1; j >= 0; j--) {
-            if(asteroids[i].collides(lasers[j])) {
-                asteroids[i].split(asteroids, lasers[j]);
-                asteroids[i].clearShape()
-                asteroids.splice(i, 1)
+            let asteroid = asteroids[i]
+            if(asteroid.collides(lasers[j])) {
+                if(asteroid.health == 0) {
+                    asteroid.split(asteroids, lasers[j]);
+                asteroid.clearShape()
+                asteroid.splice(i, 1)
+                }
+                else {
+                    asteroid.health--
+                }
                 lasers.splice(j, 1)
                 break;
             }
@@ -109,7 +115,7 @@ function checkCollisions() {
 
 function keyPressed() {
     if(keyCode == 32) {
-        lasers.push(ship.shoot(targets))
+        lasers.push(ship.shoot(targets, fovRange))
     }
 }
 
@@ -126,10 +132,10 @@ function drawLasers() {
         if(lasers[i].wrap(w, h))
             lasers.splice(i, 1)
         else {
+            lasers[i].track()
             lasers[i].move(1)
             lasers[i].draw()
         }
-        
     }
 }
 

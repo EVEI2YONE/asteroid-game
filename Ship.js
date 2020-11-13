@@ -19,13 +19,25 @@ class Ship extends Projectile {
         triangle(x1, y1, x2, y2, x3, y3)
     }
 
-    shoot(targets) {
+    shoot(targets, range) {
+        let shortest = 500000;
+        let target;
+        for(let i = 0; i < targets.length; i++) {
+            let obj = targets[i]
+            let d = mag(obj.x-this.x, obj.y-this.y)
+            if(d < range && d < shortest) {
+                shortest = d
+                target = obj
+            }
+        }
         let laserSize = 5
         //end of the ship
         let x1 = this.x + laserSize*cos(rot)
         let y1 = this.y + laserSize*sin(rot)
         //create a new laster with increased speed
-        return new Laser(x1, y1, laserSize, this.speed*1.5, this.angle)
+        let laser = new Laser(x1, y1, laserSize, this.speed*1.5, this.angle)
+        laser.setTarget(target)
+        return laser
     }
 
     collides(asteroid) {

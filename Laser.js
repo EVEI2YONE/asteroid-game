@@ -13,4 +13,19 @@ class Laser extends Projectile {
         strokeWeight(1)
         stroke(0)
     }
+
+    setTarget(target) {
+        this.target = target
+        console.log(target)
+    }
+
+    track() {
+        if(this.target == null) return
+        if(this.target.health == 0) return
+        angleMode(DEGREES)
+        let dx = this.target.x-this.x
+        let dy = this.target.y-this.y
+        let a = atan2(dy, dx)
+        this.angle = a
+    }
 }
