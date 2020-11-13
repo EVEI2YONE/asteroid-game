@@ -2,6 +2,7 @@ class Laser extends Projectile {
     constructor(x, y, size, speed, angle) {
         super(x, y, size, speed, angle)
         this.target;
+        this.damage = 6
     }
 
     draw() {

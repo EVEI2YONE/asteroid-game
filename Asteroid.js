@@ -4,7 +4,7 @@ class Asteroid extends Projectile {
         this.xPoints = []
         this.yPoints = []
         this.generateShape()
-        this.health = size/16;
+        this.health = size;
         this.totalhealth = this.health
     }
 

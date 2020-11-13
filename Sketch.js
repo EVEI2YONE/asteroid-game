@@ -7,6 +7,7 @@ let d = 10
 let s = 20
 let rot = 90
 let ship
+let score = 0
 let level = 1
 let base = 1.05
 let total = 10
@@ -16,7 +17,7 @@ let fov = 30
 let fovRange = 250
 
 /*
-    
+
 */
 
 function setup() {
@@ -41,6 +42,7 @@ function draw() {
         htmlLevel.innerHTML = level
         restart()
     }
+    //console.log(score)
     background(80)
     drawShip()
     drawAsteroids()
@@ -48,6 +50,8 @@ function draw() {
     drawTargets()
     if(checkCollisions()) {
         alert('game over')
+        score = 0
+        level = 1
         restart()
     }
     if(keyIsDown(87))
@@ -84,16 +88,18 @@ function checkCollisions() {
     for(let i = asteroids.length-1; i >= 0; i--) {
         if(ship.collides(asteroids[i])) {
             console.log('collision! GAME OVER!')
-            level = 1
             return true
         }
         for(let j = lasers.length-1; j >= 0; j--) {
             let asteroid = asteroids[i]
             if(asteroid.collides(lasers[j])) {
-                asteroid.health--
+                asteroid.health -= lasers[j].damage
                 if(asteroid.health <= 0) {
-                    asteroid.split(asteroids, lasers[j]);
+                    asteroid.split(asteroids, lasers[j])
                     asteroid.clearShape()
+                    let temp = Math.round(asteroid.totalHealth)
+                    score += temp
+                    console.log(asteroid.totalHealth)
                     asteroids.splice(i, 1)
                 }
                 lasers.splice(j, 1)
