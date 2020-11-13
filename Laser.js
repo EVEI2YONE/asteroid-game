@@ -41,7 +41,7 @@ class Laser extends Projectile {
     detonate(lasers, asteroids) {
         if(this.type == 'laser') return false
         let targets
-        let blastRadius = 250
+        let blastRadius = 50
         if(this.target != null)  {
             if(mag(this.x-this.target.x, this.y-this.target.y) > this.target.size*2) {
                 return false;
@@ -49,8 +49,7 @@ class Laser extends Projectile {
             blastRadius = this.target.size*2
         }
         targets = this.getTargets(asteroids, blastRadius, 360)
-        // if(this.target != null)
-        //     this.target.health -= this.damage
+        if(targets.length == 0) return false
         for(let i = 0; i < targets.length; i++) {
             targets[i].health -= this.damage
         }

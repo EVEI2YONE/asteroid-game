@@ -130,7 +130,6 @@ function drawShip() {
 }
 
 function drawLasers() {
-    console.log(lasers.length)
     for(let i = lasers.length-1; i >= 0; i--) {
         if(lasers[i].wrap(w, h))
             lasers.splice(i, 1)
