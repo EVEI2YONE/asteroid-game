@@ -38,16 +38,29 @@ class Laser extends Projectile {
         this.angle += a/abs(a)*2
     }
 
-    detonate(lasers) {
+    detonate(lasers, asteroids) {
         if(this.type == 'laser') return false
-        if(this.target == null) return false
-        if(mag(this.x-this.target.x, this.y-this.target.y) > this.target.size*2) {
-            return false;
+        let targets
+        let blastRadius = 250
+        if(this.target != null)  {
+            if(mag(this.x-this.target.x, this.y-this.target.y) > this.target.size*2) {
+                return false;
+            }
+            blastRadius = this.target.size*2
         }
-        this.target.health -= this.damage
+        targets = this.getTargets(asteroids, blastRadius, 360)
+        // if(this.target != null)
+        //     this.target.health -= this.damage
+        for(let i = 0; i < targets.length; i++) {
+            targets[i].health -= this.damage
+        }
+
         for(let i = 0; i < 5; i++) {
             let temp = new Laser(this.x, this.y, this.size, this.speed*.7, this.angle*i, 'laser')
-            temp.setTarget(this.target)
+            if(this.target != null && this.target.health > 0)
+                temp.setTarget(this.target)
+            else
+                temp.setTarget(targets[0])
             lasers.push(temp)
         }
         return true

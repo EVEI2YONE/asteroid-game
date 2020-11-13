@@ -44,9 +44,9 @@ function draw() {
     if(!paused) {
         background(80)
         drawShip()
-        drawAsteroids()
         drawLasers()
         drawTargets()
+        drawAsteroids()
         if(checkCollisions()) {
             alert('game over')
             score = 0
@@ -135,7 +135,7 @@ function drawLasers() {
         if(lasers[i].wrap(w, h))
             lasers.splice(i, 1)
         else {
-            if(lasers[i].detonate(lasers)) {
+            if(lasers[i].detonate(lasers, asteroids)) {
                 lasers.splice(i, 1)
                 break;
             }

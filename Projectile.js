@@ -68,4 +68,31 @@ class Projectile {
     collides(other) {
 
     }
+
+    getTargets(list, fovRange, fov) {
+        let targets = []
+        for(let i = 0; i < list.length; i++) {
+            let item = list[i]
+            let d = mag(this.x-item.x, this.y-item.y)
+            if(d < fovRange) {
+                angleMode(DEGREES)
+                let relative = atan2(item.y-this.y, item.x-this.x)
+                if(relative < 0)
+                    relative += 360
+                if(this.inRange(relative, fov)) {
+                    targets.push(item)
+                }
+            }
+        }
+        return targets
+    }
+
+    inRange(relative, fov) {
+        let start = this.angle-fov
+        let end = start+fov*2
+        if(start <= relative && relative <= end) {
+            return true
+        }
+        return false
+    }
 }

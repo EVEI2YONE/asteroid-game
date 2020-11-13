@@ -66,32 +66,7 @@ class Ship extends Projectile {
             return false
     }
 
-    getTargets(asteroids, fovRange, fov) {
-        let list = []
-        for(let i = 0; i < asteroids.length; i++) {
-            let asteroid = asteroids[i]
-            let d = mag(this.x-asteroid.x, this.y-asteroid.y)
-            if(d < fovRange) {
-                angleMode(DEGREES)
-                let relative = atan2(asteroid.y-this.y, asteroid.x-this.x)
-                if(relative < 0)
-                    relative += 360
-                if(this.inRange(relative, fov)) {
-                    list.push(asteroid)
-                }
-            }
-        }
-        return list
-    }
 
-    inRange(relative, fov) {
-        let start = this.angle-fov
-        let end = start+fov*2
-        if(start <= relative && relative <= end) {
-            return true
-        }
-        return false
-    }
 
     drawFOV(fovRange, fov) {
         let start = this.angle-fov
