@@ -96,14 +96,13 @@ function checkCollisions() {
         }
         for(let j = lasers.length-1; j >= 0; j--) {
             let asteroid = asteroids[i]
+            console.log(asteroid.health)
             if(asteroid.collides(lasers[j])) {
-                if(asteroid.health == 0) {
+                asteroid.health--
+                if(asteroid.health <= 0) {
                     asteroid.split(asteroids, lasers[j]);
-                asteroid.clearShape()
-                asteroid.splice(i, 1)
-                }
-                else {
-                    asteroid.health--
+                    asteroid.clearShape()
+                    asteroids.splice(i, 1)
                 }
                 lasers.splice(j, 1)
                 break;
