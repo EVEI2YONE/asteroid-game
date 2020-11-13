@@ -39,6 +39,7 @@ function draw() {
     if(asteroids.length == 0) {
         alert('level cleared')
         level++
+        htmlLevel.innerHTML = level
         restart()
     }
     background(80)
