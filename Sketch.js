@@ -15,10 +15,7 @@ let mult = Math.pow(base, level)
 let goal = mult * 2
 let fov = 30
 let fovRange = 250
-
-/*
-
-*/
+let paused = false
 
 function setup() {
     createCanvas(w, h)
@@ -34,6 +31,8 @@ let alpha = 0
     a - 65
     s - 83
     d - 68
+    space - 32
+    p - 80
 */
 function draw() {
     if(asteroids.length == 0) {
@@ -42,17 +41,18 @@ function draw() {
         htmlLevel.innerHTML = level
         restart()
     }
-    //console.log(score)
-    background(80)
-    drawShip()
-    drawAsteroids()
-    drawLasers()
-    drawTargets()
-    if(checkCollisions()) {
-        alert('game over')
-        score = 0
-        level = 1
-        restart()
+    if(!paused) {
+        background(80)
+        drawShip()
+        drawAsteroids()
+        drawLasers()
+        drawTargets()
+        if(checkCollisions()) {
+            alert('game over')
+            score = 0
+            level = 1
+            restart()
+        }
     }
     if(keyIsDown(87))
         move = 1
@@ -67,6 +67,19 @@ function draw() {
     else {
         alpha = 0
     }
+}
+
+function keyPressed() {
+    if(keyCode == 32) { //space
+        lasers.push(ship.shoot(targets, fovRange, 'laser'))
+    }
+    if(keyCode == 80) { //'p'
+        paused = !paused
+    }
+}
+
+function mouseClicked() {
+    lasers.push(ship.shoot(targets, fovRange, 'missile'))
 }
 
 function start() {
@@ -87,7 +100,6 @@ function restart() {
 function checkCollisions() {
     for(let i = asteroids.length-1; i >= 0; i--) {
         if(ship.collides(asteroids[i])) {
-            console.log('collision! GAME OVER!')
             return true
         }
         for(let j = lasers.length-1; j >= 0; j--) {
@@ -99,7 +111,6 @@ function checkCollisions() {
                     asteroid.clearShape()
                     score += Math.round(asteroid.totalHealth)
                     htmlScore.innerHTML = score
-                    console.log(score)
                     asteroids.splice(i, 1)
                 }
                 lasers.splice(j, 1)
@@ -108,12 +119,6 @@ function checkCollisions() {
         }
     }
     return false
-}
-
-function keyPressed() {
-    if(keyCode == 32) {
-        lasers.push(ship.shoot(targets, fovRange))
-    }
 }
 
 function drawShip() {
@@ -125,10 +130,15 @@ function drawShip() {
 }
 
 function drawLasers() {
+    console.log(lasers.length)
     for(let i = lasers.length-1; i >= 0; i--) {
         if(lasers[i].wrap(w, h))
             lasers.splice(i, 1)
         else {
+            if(lasers[i].detonate(lasers)) {
+                lasers.splice(i, 1)
+                break;
+            }
             lasers[i].track()
             lasers[i].move(1)
             lasers[i].draw()

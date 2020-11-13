@@ -19,7 +19,7 @@ class Ship extends Projectile {
         triangle(x1, y1, x2, y2, x3, y3)
     }
 
-    shoot(targets, range) {
+    shoot(targets, range, type) {
         let shortest = 500000;
         let target;
         for(let i = 0; i < targets.length; i++) {
@@ -35,7 +35,7 @@ class Ship extends Projectile {
         let x1 = this.x + laserSize*cos(rot)
         let y1 = this.y + laserSize*sin(rot)
         //create a new laster with increased speed
-        let laser = new Laser(x1, y1, laserSize, this.speed*1.5, this.angle)
+        let laser = new Laser(x1, y1, laserSize, this.speed*1.5, this.angle, type)
         laser.setTarget(target)
         return laser
     }

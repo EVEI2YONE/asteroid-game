@@ -1,14 +1,17 @@
 class Laser extends Projectile {
-    constructor(x, y, size, speed, angle) {
+    constructor(x, y, size, speed, angle, type) {
         super(x, y, size, speed, angle)
         this.target;
-        this.damage = 6
+        this.type = type
+        this.damage
+        this.stroke
+        this.setup()
     }
 
     draw() {
         let x1 = this.x + cos(this.angle)*this.size
         let y1 = this.y + sin(this.angle)*this.size
-        strokeWeight(2)
+        strokeWeight(this.stroke)
         stroke(255)
         line(this.x, this.y, x1, y1)
         strokeWeight(1)
@@ -32,6 +35,32 @@ class Laser extends Projectile {
         //had to convert to 360 degrees and use modulus for angle change
         a -= this.angle
         a %= 360
-        this.angle += a/abs(a)
+        this.angle += a/abs(a)*2
+    }
+
+    detonate(lasers) {
+        if(this.type == 'laser') return false
+        if(this.target == null) return false
+        if(mag(this.x-this.target.x, this.y-this.target.y) > this.target.size*2) {
+            return false;
+        }
+        this.target.health -= this.damage
+        for(let i = 0; i < 5; i++) {
+            let temp = new Laser(this.x, this.y, this.size, this.speed*.7, this.angle*i, 'laser')
+            temp.setTarget(this.target)
+            lasers.push(temp)
+        }
+        return true
+    }
+
+    setup(){ 
+        if(this.type == 'laser'){
+            this.stroke = 2
+            this.damage = 6
+        }
+        else if(this.type == 'missile') {
+            this.stroke = 4
+            this.damage = 15
+        }
     }
 }

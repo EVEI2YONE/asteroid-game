@@ -43,7 +43,7 @@ class Asteroid extends Projectile {
         let y = this.y-(this.size+padding*2)
         let width = this.size*2
         let health = this.health/this.totalHealth
-        fill('rgb(0, 255, 0, .9)')
+        fill('rgb(0,255,0)')
         rect(x, y, width*health, padding)
         fill(255)
     }
