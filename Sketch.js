@@ -40,7 +40,6 @@ function draw() {
         alert('level cleared')
         level++
         htmlLevel.innerHTML = level
-        htmlScore.innerHTML = score
         restart()
     }
     //console.log(score)
@@ -99,6 +98,7 @@ function checkCollisions() {
                     asteroid.split(asteroids, lasers[j])
                     asteroid.clearShape()
                     score += Math.round(asteroid.totalHealth)
+                    htmlScore.innerHTML = score
                     console.log(score)
                     asteroids.splice(i, 1)
                 }
