@@ -39,6 +39,7 @@ function draw() {
         alert('level cleared')
         level++
         htmlLevel.innerHTML = level
+        htmlScore.innerHTML = score
         restart()
     }
     background(80)

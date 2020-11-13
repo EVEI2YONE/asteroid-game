@@ -21,14 +21,15 @@
             <small class="smaller">webpage by <a href="https://github.com/nicey0">nicey0</a></small>
         </footer>
     </body>
-    <script type="text/javascript">
-        let htmlLevel = document.getElementById("level");
-        // let htmlScore = document.getElementById("score");
-        htmlLevel.innerHTML = 1
-    </script>
     <script src="Projectile.js"></script>
     <script src="Asteroid.js"></script>
     <script src="Laser.js"></script>
     <script src="Ship.js"></script>
     <script src="Sketch.js"></script>
+    <script type="text/javascript">
+        let htmlLevel = document.getElementById("level");
+        let htmlScore = document.getElementById("score");
+        htmlLevel.innerHTML = level
+        htmlScore.innerHTML = score
+    </script>
 </html>
