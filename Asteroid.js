@@ -5,6 +5,7 @@ class Asteroid extends Projectile {
         this.yPoints = []
         this.generateShape()
         this.health = size/16;
+        this.totalhealth = this.health
     }
 
     generateShape() {
@@ -36,11 +37,15 @@ class Asteroid extends Projectile {
         stroke(0)
     }
 
-    move(direction) {
-        let a = this.angle
-        let step = this.step
-        this.x += step*cos(a)
-        this.y += step*sin(a)
+    displayHealth() {
+        let padding = 5
+        let x = this.x-this.size
+        let y = this.y-(this.size+padding*2)
+        let width = this.size*2
+        let health = this.health/this.totalhealth
+        fill('rgb(0, 255, 0, .9)')
+        rect(x, y, width*health, padding)
+        fill(255)
     }
 
     split(asteroids, laser) {

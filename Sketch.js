@@ -16,8 +16,7 @@ let fov = 30
 let fovRange = 250
 
 /*
-
-
+    
 */
 
 function setup() {
@@ -80,18 +79,6 @@ function restart() {
     start()
 }
 
-function drawTargets() {
-    noFill()
-    targets = ship.getTargets(asteroids, fovRange, fov)
-    for(let i = 0; i < targets.length; i++) {
-        let target = targets[i]
-        stroke(0, 255, 255)
-        ellipse(target.x, target.y, 2)
-    }
-    fill(255)
-    stroke(0)
-}
-
 function checkCollisions() {
     for(let i = asteroids.length-1; i >= 0; i--) {
         if(ship.collides(asteroids[i])) {
@@ -142,18 +129,31 @@ function drawLasers() {
     }
 }
 
+function drawTargets() {
+    noFill()
+    targets = ship.getTargets(asteroids, fovRange, fov)
+    for(let i = 0; i < targets.length; i++) {
+        let target = targets[i]
+        stroke(0, 255, 255)
+        ellipse(target.x, target.y, 2)
+    }
+    fill(255)
+    stroke(0)
+}
+
 function drawAsteroids() {
     for(let i = 0; i < asteroids.length; i++) {
         asteroids[i].move(1)
         asteroids[i].wrap(w, h)
         asteroids[i].draw()
+        asteroids[i].displayHealth()
     }
 }
 
 function generateAsteroids(num) {
     for(let i = 0; i < num; i++) {
-        let xStart;
-        let yStart;
+        let xStart
+        let yStart
         let choice = Math.random()
         if(choice < .25) { //move left
             xStart = 0
