@@ -1,2 +1,2 @@
 Asteroids
-![](images/asteroids-game-1.png)
+<img src="images/asteroids-game-1" width="400">
