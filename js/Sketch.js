@@ -129,7 +129,7 @@ function asteroidHit(asteroid, filter) {
     let nearbyAsteroids = asteroid.getTargets(asteroids, asteroid.size, 360)
     for(let j = 0; j < nearbyAsteroids.length; j++) {
         let other = nearbyAsteroids[j]
-        line(asteroid.x, asteroid.y, other.x, other.y)
+        //line(asteroid.x, asteroid.y, other.x, other.y)
         if(mag(asteroid.x-other.x, asteroid.y-other.y) > asteroid.size+other.size) continue
         //if(asteroid.size < other.size && asteroid.collides(other)) {
             asteroid.split(asteroids, other, false)

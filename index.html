@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <title>Asteroid Game</title>
         <link rel="stylesheet" type="text/css" href="styles.css"></style>
-        <script src="./libraries/p5.js"></script>
-        <script src="Projectile.js"></script>
-        <script src="Asteroid.js"></script>
-        <script src="Laser.js"></script>
-        <script src="Ship.js"></script>
-        <script src="Sketch.js"></script>
+        <script src="libraries/p5.js"></script>
+        <script src="js/Projectile.js"></script>
+        <script src="js/Asteroid.js"></script>
+        <script src="js/Laser.js"></script>
+        <script src="js/Ship.js"></script>
+        <script src="js/Sketch.js"></script>
     </head>
     <body>
         <header>
@@ -21,6 +21,17 @@
             <h3>Score: <span id="score">x</span></h3>
             <div style="height: 10px;"></div>
             <div id="game"></div>
+            <h3 id="controls-header">Controls</h5>
+            <div id="controls">
+                <h5>w - speed up</h5>
+                <h5>a - turn left</h5>
+                <h5>d - turn right</h5>
+                <h5>spacebar (hold) - rapid fire</h5>
+                <h5>mouse click (left) - burst missle</h5>
+            </div>
+            <h6>
+                Note: When asteroids are near and in sight, they are being tracked. Fire away!
+            </h6>
         </main>
         <footer>
             <small class="smaller">webpage by <a href="https://github.com/nicey0">nicey0</a></small>
@@ -32,5 +43,12 @@
         let htmlScore = document.getElementById("score");
         htmlLevel.innerHTML = level
         htmlScore.innerHTML = score
+    </script>
+    <script>
+        //found on stack-overflow to prevent spacebar from scrolling page
+        window.addEventListener('keydown', function(e) {
+            if(e.keyCode == 32 && e.target == document.body)
+                e.preventDefault();
+        });
     </script>
 </html>

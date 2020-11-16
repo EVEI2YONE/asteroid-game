@@ -59,3 +59,11 @@ footer small {
     display: block;
     text-align: center;
 }
+
+#controls {
+    text-align: left;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
