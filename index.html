@@ -5,7 +5,11 @@
         <title>Asteroid Game</title>
         <link rel="stylesheet" type="text/css" href="styles.css"></style>
         <script src="./libraries/p5.js"></script>
-        <script src="./libraries/p5.sound.js"></script>
+        <script src="Projectile.js"></script>
+        <script src="Asteroid.js"></script>
+        <script src="Laser.js"></script>
+        <script src="Ship.js"></script>
+        <script src="Sketch.js"></script>
     </head>
     <body>
         <header>
@@ -16,16 +20,13 @@
             <h3>Level: <span id="level">x</span></h3>
             <h3>Score: <span id="score">x</span></h3>
             <div style="height: 10px;"></div>
+            <div id="game"></div>
         </main>
         <footer>
             <small class="smaller">webpage by <a href="https://github.com/nicey0">nicey0</a></small>
         </footer>
     </body>
-    <script src="Projectile.js"></script>
-    <script src="Asteroid.js"></script>
-    <script src="Laser.js"></script>
-    <script src="Ship.js"></script>
-    <script src="Sketch.js"></script>
+
     <script type="text/javascript">
         let htmlLevel = document.getElementById("level");
         let htmlScore = document.getElementById("score");

@@ -9,7 +9,7 @@ let rot = 90
 let ship
 let score = 0
 let level = 1
-let base = 1.05
+let base = 1.1
 let total = 4
 let mult = Math.pow(base, level)
 let goal = mult * total
@@ -20,7 +20,8 @@ let rate = 100
 let count = 0
 
 function setup() {
-    createCanvas(w, h)
+    var canvas = createCanvas(w, h)
+    canvas.parent('game')
     background(80)
     start()
 }
